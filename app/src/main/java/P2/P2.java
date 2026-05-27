@@ -1,32 +1,40 @@
 package P2;
+
 import static com.raylib.Raylib.*;
-import static com.raylib.Colors.*; 
+import static com.raylib.Colors.*;
+
+import core.Player;
 
 public class P2 {
-    
+
+    static int screen_width = 1300;
+    static int screen_height = 850;
+
+    static float player_y = 800;
+
     public static void main(String[] args) {
-        
-        // Configuração da janela
-        InitWindow(800, 450, "Raylib Java - PUCPR RA2/RA3");
+
+        Player player = new Player(screen_width / 2, player_y, 1.5f);
+
+        InitWindow(screen_width, screen_height, "Programa P2");
         SetTargetFPS(60);
 
-        // Game Loop
         while (!WindowShouldClose()) {
-            
-            // 1. Atualização de lógica (Inputs aqui)
-            // ex: if (IsKeyPressed(KEY_SPACE)) { ... }
 
-            // 2. Renderização
+            if (IsKeyDown(KEY_LEFT)) {
+                player.move(-1);
+            } else if (IsKeyDown(KEY_RIGHT)) {
+                player.move(1);
+            }
+
             BeginDrawing();
-                ClearBackground(RAYWHITE);
-                
-                DrawText("Raylib funcionando no Java!", 190, 200, 20, LIGHTGRAY);
-                DrawRectangle(10, 10, 50, 50, RED);
-                
+
+            ClearBackground(BLACK);
+            player.draw_player();
+
             EndDrawing();
         }
 
-        // Fecha a janela ao sair do loop
         CloseWindow();
     }
 }

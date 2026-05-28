@@ -1,9 +1,9 @@
 package core;
 
-import static com.raylib.Helpers.newVector2;
+import com.raylib.Raylib.Vector2;
 
-public class GameObject {
-  
+public abstract class GameObject {
+
   protected float x;
   protected float y;
 
@@ -15,4 +15,9 @@ public class GameObject {
     this.scale = scale;
   }
 
+  public abstract void move(EDirection direction);
+
+  public abstract void draw();
+
+  public abstract Vector2 get_position();
 }

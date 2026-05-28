@@ -13,7 +13,7 @@ public class Player extends GameObject {
   private Vector2 point2;
   private Vector2 point3;
 
-  public Player(float x, float y, float scale) {
+  public Player(int x, int y, float scale) {
     super(x, y, scale);
 
     this.point1 = newVector2(x, y - 10 * scale);
@@ -21,21 +21,27 @@ public class Player extends GameObject {
     this.point3 = newVector2(x + 10 * scale, y + 10 * scale);
   }
 
-  public void draw_player() {
+  public void draw() {
     this.point1 = newVector2(x, y - 10 * scale);
     this.point2 = newVector2(x - 10 * scale, y + 10 * scale);
     this.point3 = newVector2(x + 10 * scale, y + 10 * scale);
     DrawTriangle(point2, point3, point1, RAYWHITE);
   }
 
-  public void move(int direction) {
+  public void move(EDirection direction) {
 
-    if (direction == -1) {
+    if (direction == EDirection.LEFT) {
       this.x -= 5;
-    } else if (direction == 1) {
+    } else if (direction == EDirection.RIGHT) {
       this.x += 5;
     }
 
   }
+
+  public Vector2 get_position() {
+    return newVector2(x, y);
+  }
+
+
 
 }

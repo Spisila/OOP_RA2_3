@@ -17,7 +17,4 @@ public abstract class Enemy extends GameObject implements IDamageable {
 
   }
 
-  public Vector2 get_position() {
-    return newVector2(x, y);
-  }
 }

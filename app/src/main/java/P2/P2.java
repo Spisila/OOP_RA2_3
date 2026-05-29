@@ -11,6 +11,7 @@ import core.Asteroid;
 import core.EDirection;
 import core.Enemy;
 import core.Player;
+import core.Projectile;
 
 public class P2 {
 
@@ -24,8 +25,9 @@ public class P2 {
         Player player = new Player(screen_width / 2, player_y, 1.5f);
 
         ArrayList<Enemy> active_enemies = new ArrayList<>();
+        ArrayList<Projectile> active_projectiles = new ArrayList<>();
 
-        float spawn_enemies_timer = 0.5f;
+        float spawn_enemies_timer = 1.5f;
 
         Random ran = new Random();
 
@@ -41,15 +43,17 @@ public class P2 {
                 player.move(EDirection.RIGHT);
             }
 
+            if (IsKeyDown(KEY_SPACE)) {
+                player.shoot(active_projectiles);
+            }
+
             spawn_enemies_timer -= GetFrameTime();
 
             if (spawn_enemies_timer <= 0) {
-                for (int i = 0; i < 10; i++) {
-                    Enemy new_Enemy = new Asteroid(ran.nextInt(0, screen_width), -50, ran.nextFloat(0.8f, 1.5f),
-                            ran.nextInt(50, 100));
-                    active_enemies.add(new_Enemy);
-                }
-                spawn_enemies_timer = 0.5f;
+                Enemy new_Enemy = new Asteroid(ran.nextInt(0, screen_width), -50, ran.nextFloat(0.8f, 1.5f),
+                        ran.nextInt(50, 100));
+                active_enemies.add(new_Enemy);
+                spawn_enemies_timer = 1.5f;
             }
 
             for (int i = 0; i < active_enemies.size(); i++) {
@@ -60,6 +64,11 @@ public class P2 {
                 if (e.get_position().y() >= screen_height) {
                     active_enemies.remove(e);
                 }
+            }
+
+            for (Projectile p : active_projectiles) {
+                p.draw();
+                p.move(EDirection.UP);
             }
 
             BeginDrawing();

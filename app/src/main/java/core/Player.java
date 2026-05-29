@@ -1,5 +1,7 @@
 package core;
 
+import java.util.ArrayList;
+
 import static com.raylib.Raylib.*;
 
 import com.raylib.Raylib.Vector2;
@@ -13,12 +15,16 @@ public class Player extends GameObject {
   private Vector2 point2;
   private Vector2 point3;
 
+  private Vector2 shoot_point;
+
   public Player(int x, int y, float scale) {
     super(x, y, scale);
 
     this.point1 = newVector2(x, y - 10 * scale);
     this.point2 = newVector2(x - 10 * scale, y + 10 * scale);
     this.point3 = newVector2(x + 10 * scale, y + 10 * scale);
+
+    this.shoot_point = newVector2(x - 3, y - 11 * scale);
   }
 
   public void draw() {
@@ -36,12 +42,15 @@ public class Player extends GameObject {
       this.x += 5;
     }
 
+    shoot_point = newVector2(x - 3, y - 11 * scale);
   }
 
-  public Vector2 get_position() {
-    return newVector2(x, y);
+  public void shoot(ArrayList<Projectile> active_projectiles) {
+
+    Projectile p = new Projectile(shoot_point.x(), shoot_point.y(), 1);
+
+    active_projectiles.add(p);
+
   }
-
-
 
 }

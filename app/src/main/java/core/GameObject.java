@@ -2,6 +2,8 @@ package core;
 
 import com.raylib.Raylib.Vector2;
 
+import static com.raylib.Helpers.newVector2;
+
 public abstract class GameObject {
 
   protected float x;
@@ -19,5 +21,7 @@ public abstract class GameObject {
 
   public abstract void draw();
 
-  public abstract Vector2 get_position();
+  public Vector2 get_position() {
+    return newVector2(x, y);
+  }
 }

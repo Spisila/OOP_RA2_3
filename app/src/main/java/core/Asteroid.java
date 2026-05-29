@@ -17,7 +17,7 @@ public class Asteroid extends Enemy implements IDamageable {
 
   public void move(EDirection direction) {
 
-    y += 5;
+    y += 2.5f;
 
   }
 

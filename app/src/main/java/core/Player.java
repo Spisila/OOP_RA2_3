@@ -17,6 +17,8 @@ public class Player extends GameObject {
 
   private Vector2 shoot_point;
 
+  private Timer shooting_cooldown;
+
   public Player(int x, int y, float scale) {
     super(x, y, scale);
 
@@ -25,6 +27,8 @@ public class Player extends GameObject {
     this.point3 = newVector2(x + 10 * scale, y + 10 * scale);
 
     this.shoot_point = newVector2(x - 3, y - 11 * scale);
+
+    this.shooting_cooldown = new Timer(0.5f);
   }
 
   public void draw() {
@@ -47,10 +51,17 @@ public class Player extends GameObject {
 
   public void shoot(ArrayList<Projectile> active_projectiles) {
 
-    Projectile p = new Projectile(shoot_point.x(), shoot_point.y(), 1);
+    if (shooting_cooldown.is_counting_down() == false) {
+      Projectile p = new Projectile(shoot_point.x(), shoot_point.y(), 1);
+      active_projectiles.add(p);
 
-    active_projectiles.add(p);
+      shooting_cooldown.start();
+    }
 
+  }
+
+  public void update(float game_time) {
+    shooting_cooldown.update(game_time);
   }
 
 }

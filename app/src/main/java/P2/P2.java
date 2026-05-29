@@ -47,6 +47,8 @@ public class P2 {
                 player.shoot(active_projectiles);
             }
 
+            player.update(GetFrameTime());
+
             spawn_enemies_timer -= GetFrameTime();
 
             if (spawn_enemies_timer <= 0) {

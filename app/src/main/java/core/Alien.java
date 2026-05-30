@@ -29,8 +29,4 @@ public class Alien extends Enemy implements IDamageable {
 
   }
 
-  public void takeDamage(int damage) {
-
-  }
-
 }

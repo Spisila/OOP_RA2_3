@@ -64,8 +64,6 @@ public class P2 {
                 float new_shoot_cooldown_mod = 0.5f - (float) score / 10000f;
                 player.set_shooting_cooldow(new_shoot_cooldown_mod);
 
-                System.out.println("Speed mod = " + new_speed_mod);
-                System.out.println("Shoot mod = " + new_shoot_cooldown_mod);
             }
 
             // Spawn new enemies
@@ -78,7 +76,7 @@ public class P2 {
 
                 random_x = ran.nextFloat(50, screen_width - 50);
 
-                Enemy e_1 = new Alien(random_x, -50, 1, 100);
+                Enemy e_1 = new Alien(random_x, -50, 1, 20);
 
                 active_enemies.add(e);
                 active_enemies.add(e_1);
@@ -93,13 +91,17 @@ public class P2 {
                 e.move(EDirection.DOWN);
                 e.update();
 
+                if (e.is_alive() == false) {
+                    active_enemies.remove(e);
+                }
+
                 if (e.get_position().y() > screen_height + 25) {
                     active_enemies.remove(e);
                 }
 
                 for (int j = 0; j < active_projectiles.size(); j++) {
                     if (e.get_collider().check_collision(active_projectiles.get(j).get_collider())) {
-                        active_enemies.remove(e);
+                        e.takeDamage(10);
                         active_projectiles.remove(j);
                     }
                 }

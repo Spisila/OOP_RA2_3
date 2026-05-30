@@ -1,13 +1,12 @@
 package core;
 
-import static com.raylib.Helpers.newVector2;
-
-import com.raylib.Raylib.Rectangle;
 import com.raylib.Raylib.Vector2;
 
 public abstract class Enemy extends GameObject implements IDamageable {
 
   private int health;
+
+  private boolean alive;
 
   private Collider collider;
 
@@ -15,10 +14,22 @@ public abstract class Enemy extends GameObject implements IDamageable {
     super(x, y, scale);
 
     this.health = health;
+    this.alive = true;
   }
 
   public void takeDamage(int damage) {
 
+    health -= damage;
+
+    System.out.println("MORTYE");
+    if (health <= 0) {
+      alive = false;
+    }
+
+  }
+
+  public boolean is_alive() {
+    return alive;
   }
 
   public void update() {

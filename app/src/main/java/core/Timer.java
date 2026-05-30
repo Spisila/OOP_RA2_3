@@ -37,4 +37,11 @@ public class Timer {
     return counting_down;
   }
 
+  public void set_wait_timer(float new_time) {
+
+    if (new_time > 0) {
+      wait_time = new_time;
+    }
+  }
+
 }

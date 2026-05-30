@@ -57,7 +57,18 @@ public class P2 {
             // Update player
             player.update(GetFrameTime());
 
-            //Spawn new enemies
+            if (score <= 4000) {
+                float new_speed_mod = 1 + (float) score / 1000f;
+                player.set_speed_modifier(new_speed_mod);
+
+                float new_shoot_cooldown_mod = 0.5f - (float) score / 10000f;
+                player.set_shooting_cooldow(new_shoot_cooldown_mod);
+
+                System.out.println("Speed mod = " + new_speed_mod);
+                System.out.println("Shoot mod = " + new_shoot_cooldown_mod);
+            }
+
+            // Spawn new enemies
             spawn_enemies_timer -= GetFrameTime();
             if (spawn_enemies_timer <= 0) {
 
@@ -82,6 +93,10 @@ public class P2 {
                 e.move(EDirection.DOWN);
                 e.update();
 
+                if (e.get_position().y() > screen_height + 25) {
+                    active_enemies.remove(e);
+                }
+
                 for (int j = 0; j < active_projectiles.size(); j++) {
                     if (e.get_collider().check_collision(active_projectiles.get(j).get_collider())) {
                         active_enemies.remove(e);
@@ -91,11 +106,17 @@ public class P2 {
 
             }
 
-            //Update projectiles
-            for (Projectile p : active_projectiles) {
+            // Update projectiles
+            for (int i = 0; i < active_projectiles.size(); i++) {
+                Projectile p = active_projectiles.get(i);
+
                 p.draw();
                 p.move(EDirection.UP);
                 p.update();
+
+                if (p.get_position().y() < -25) {
+                    active_projectiles.remove(p);
+                }
             }
 
             // Update score
@@ -104,7 +125,7 @@ public class P2 {
             // Drawing loop
             BeginDrawing();
 
-            DrawText(String.valueOf(score) , 0, 0, 25, BEIGE);
+            DrawText(String.valueOf(score), 0, 0, 25, BEIGE);
 
             ClearBackground(BLACK);
             player.draw();

@@ -18,6 +18,10 @@ public class Player extends GameObject {
   private Vector2 shoot_point;
 
   private Timer shooting_cooldown;
+  private float shooting_cooldown_modifier;
+
+  private float base_speed = 5;
+  private float speed_modifier = 1;
 
   public Player(int x, int y, float scale) {
     super(x, y, scale);
@@ -40,13 +44,23 @@ public class Player extends GameObject {
 
   public void move(EDirection direction) {
 
+    float speed = base_speed + speed_modifier;
+
     if (direction == EDirection.LEFT) {
-      this.x -= 5;
+      this.x -= speed;
     } else if (direction == EDirection.RIGHT) {
-      this.x += 5;
+      this.x += speed;
     }
 
     shoot_point = newVector2(x - 3, y - 11 * scale);
+  }
+
+  public void set_speed_modifier(float modifier) {
+    speed_modifier = modifier;
+  }
+
+  public void set_shooting_cooldow(float modifier) {
+    shooting_cooldown.set_wait_timer(modifier);
   }
 
   public void shoot(ArrayList<Projectile> active_projectiles) {

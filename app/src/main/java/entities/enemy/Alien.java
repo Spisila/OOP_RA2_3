@@ -1,4 +1,4 @@
-package core;
+package entities.enemy;
 
 import static com.raylib.Colors.BLUE;
 import static com.raylib.Helpers.newVector2;
@@ -6,6 +6,10 @@ import static com.raylib.Raylib.DrawCircleV;
 import static com.raylib.Raylib.DrawRectangleV;
 
 import com.raylib.Raylib.Vector2;
+
+import engine.EDirection;
+import engine.IDamageable;
+import engine.Shape;
 
 public class Alien extends Enemy implements IDamageable {
 

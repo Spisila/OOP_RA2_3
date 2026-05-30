@@ -1,10 +1,16 @@
-package core;
+package entities;
 
 import java.util.ArrayList;
 
 import static com.raylib.Raylib.*;
 
 import com.raylib.Raylib.Vector2;
+
+import engine.EDirection;
+import engine.GameObject;
+import engine.GameTimer;
+import engine.Rect;
+import engine.Shape;
 
 import static com.raylib.Helpers.newVector2;
 import static com.raylib.Colors.*;
@@ -18,7 +24,6 @@ public class Player extends GameObject {
   private Vector2 shoot_point;
 
   private GameTimer shooting_cooldown;
-  private float shooting_cooldown_modifier;
 
   private float base_speed = 5;
   private float speed_modifier = 1;

@@ -1,7 +1,11 @@
-package core;
+package entities.enemy;
 
 import static com.raylib.Raylib.*;
 import com.raylib.Raylib.Vector2;
+
+import engine.EDirection;
+import engine.Shape;
+
 import static com.raylib.Colors.*;
 
 import static com.raylib.Helpers.newVector2;

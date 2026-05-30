@@ -1,6 +1,11 @@
-package core;
+package entities.enemy;
 
 import com.raylib.Raylib.Vector2;
+
+import engine.Collider;
+import engine.GameObject;
+import engine.IDamageable;
+import engine.Shape;
 
 public abstract class Enemy extends GameObject implements IDamageable {
 
@@ -22,7 +27,7 @@ public abstract class Enemy extends GameObject implements IDamageable {
   public void takeDamage(int damage) {
 
     health -= damage;
-    
+
     if (health <= 0) {
       alive = false;
     }

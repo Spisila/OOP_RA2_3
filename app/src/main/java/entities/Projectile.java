@@ -1,4 +1,4 @@
-package core;
+package entities;
 
 import static com.raylib.Colors.RAYWHITE;
 import static com.raylib.Helpers.newRectangle;
@@ -7,6 +7,11 @@ import static com.raylib.Raylib.*;
 
 import com.raylib.Raylib.Rectangle;
 import com.raylib.Raylib.Vector2;
+
+import engine.Collider;
+import engine.EDirection;
+import engine.GameObject;
+import engine.Shape;
 
 public class Projectile extends GameObject {
 

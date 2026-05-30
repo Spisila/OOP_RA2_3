@@ -1,4 +1,4 @@
-package core;
+package engine;
 
 import static com.raylib.Colors.BLUE;
 import static com.raylib.Helpers.newRectangle;

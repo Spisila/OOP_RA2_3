@@ -9,19 +9,20 @@ import java.util.function.Supplier;
 import static com.raylib.Colors.*;
 import static com.raylib.Helpers.newVector2;
 
-import core.Alien;
-import core.Asteroid;
-import core.Circle;
-import core.EDirection;
-import core.EGameState;
-import core.Enemy;
-import core.GameObject;
-import core.Player;
-import core.Projectile;
-import core.Rect;
-import core.GameTimer;
+import engine.Circle;
+import engine.EDirection;
+import engine.EGameState;
+import engine.GameTimer;
+import engine.Rect;
+import entities.Player;
+import entities.Projectile;
+import entities.enemy.Alien;
+import entities.enemy.Asteroid;
+import entities.enemy.Enemy;
 
 public class P2 {
+
+    // Carregar objetos do P1
 
     static int screen_width = 1300;
     static int screen_height = 850;
@@ -35,7 +36,7 @@ public class P2 {
         ArrayList<Enemy> active_enemies = new ArrayList<>();
         ArrayList<Projectile> active_projectiles = new ArrayList<>();
 
-        float spawn_new_enemy_time = 1.5f;
+        float spawn_new_enemy_time = 1f;
         GameTimer spawn_enemies_timer = new GameTimer(spawn_new_enemy_time);
 
         int score = 0;
@@ -103,15 +104,6 @@ public class P2 {
 
                 // Update player
                 player.update(GetFrameTime());
-
-                if (score <= 4000) {
-                    float new_speed_mod = 1 + (float) score / 1000f;
-                    player.set_speed_modifier(new_speed_mod);
-
-                    float new_shoot_cooldown_mod = 0.5f - (float) score / 10000f;
-                    player.set_shooting_cooldow(new_shoot_cooldown_mod);
-
-                }
 
                 // Spawn new enemies
                 spawn_enemies_timer.update(GetFrameTime());

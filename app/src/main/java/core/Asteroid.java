@@ -8,10 +8,10 @@ import static com.raylib.Helpers.newVector2;
 
 public class Asteroid extends Enemy {
 
-  public Asteroid(float _x, float _y, float _scale, int health) {
-    super(_x, _y, _scale, health);
+  public Asteroid(float _x, float _y, float _scale, int health, Shape _collision_shape) {
+    
+    super(_x, _y, _scale, health, _collision_shape);
 
-    set_collider_rect(50 * _scale, 50 * _scale);
   }
 
   public void move(EDirection direction) {

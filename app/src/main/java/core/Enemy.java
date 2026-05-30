@@ -10,11 +10,13 @@ public abstract class Enemy extends GameObject implements IDamageable {
 
   private Collider collider;
 
-  public Enemy(float x, float y, float scale, int health) {
-    super(x, y, scale);
+  public Enemy(float x, float y, float scale, int health, Shape _shape) {
+    super(x, y, scale, _shape);
 
     this.health = health;
     this.alive = true;
+
+    this.collider = new Collider(shape);
   }
 
   public void takeDamage(int damage) {
@@ -39,22 +41,6 @@ public abstract class Enemy extends GameObject implements IDamageable {
 
   public Collider get_collider() {
     return collider;
-  }
-
-  public void set_collider_circle(float radius) {
-
-    Circle c = new Circle(get_position(), radius);
-
-    collider = new Collider(c);
-
-  }
-
-  public void set_collider_rect(float width, float height) {
-
-    Rect r = new Rect(get_position(), width, height);
-
-    collider = new Collider(r);
-
   }
 
 }

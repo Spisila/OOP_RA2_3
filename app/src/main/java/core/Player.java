@@ -23,8 +23,8 @@ public class Player extends GameObject {
   private float base_speed = 5;
   private float speed_modifier = 1;
 
-  public Player(int x, int y, float scale) {
-    super(x, y, scale);
+  public Player(int x, int y, float scale, Shape _shape) {
+    super(x, y, scale, null);
 
     this.point1 = newVector2(x, y - 10 * scale);
     this.point2 = newVector2(x - 10 * scale, y + 10 * scale);
@@ -66,7 +66,9 @@ public class Player extends GameObject {
   public void shoot(ArrayList<Projectile> active_projectiles) {
 
     if (shooting_cooldown.is_counting_down() == false) {
-      Projectile p = new Projectile(shoot_point.x(), shoot_point.y(), 1);
+
+      Shape projectile_collider = new Rect(shoot_point, 6, 10);
+      Projectile p = new Projectile(shoot_point.x(), shoot_point.y(), 1, projectile_collider);
       active_projectiles.add(p);
 
       shooting_cooldown.start();

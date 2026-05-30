@@ -11,10 +11,13 @@ public abstract class GameObject {
 
   protected float scale;
 
-  public GameObject(float x, float y, float scale) {
+  protected Shape shape;
+
+  public GameObject(float x, float y, float scale, Shape _shape) {
     this.x = x;
     this.y = y;
     this.scale = scale;
+    this.shape = _shape;
   }
 
   public abstract void move(EDirection direction);

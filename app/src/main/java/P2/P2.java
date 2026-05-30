@@ -11,11 +11,13 @@ import static com.raylib.Helpers.newVector2;
 
 import core.Alien;
 import core.Asteroid;
+import core.Circle;
 import core.EDirection;
 import core.Enemy;
 import core.GameObject;
 import core.Player;
 import core.Projectile;
+import core.Rect;
 
 public class P2 {
 
@@ -26,7 +28,7 @@ public class P2 {
 
     public static void main(String[] args) {
 
-        Player player = new Player(screen_width / 2, player_y, 1.5f);
+        Player player = new Player(screen_width / 2, player_y, 1.5f, null);
 
         ArrayList<Enemy> active_enemies = new ArrayList<>();
         ArrayList<Projectile> active_projectiles = new ArrayList<>();
@@ -72,11 +74,15 @@ public class P2 {
 
                 float random_x = ran.nextFloat(50, screen_width - 50);
 
-                Enemy e = new Asteroid(random_x, -50, 1, 10);
-
+                Rect r = new Rect(newVector2(random_x, -50), 50, 50);
+                
+                Enemy e = new Asteroid(random_x, -50, 1, 10, r);
+                
                 random_x = ran.nextFloat(50, screen_width - 50);
-
-                Enemy e_1 = new Alien(random_x, -50, 1, 20);
+                
+                
+                Circle c = new Circle(newVector2(random_x, -50), 25);
+                Enemy e_1 = new Alien(random_x, -50, 1, 20, c);
 
                 active_enemies.add(e);
                 active_enemies.add(e_1);

@@ -9,10 +9,10 @@ import com.raylib.Raylib.Vector2;
 
 public class Alien extends Enemy implements IDamageable {
 
-  public Alien(float _x, float _y, float _scale, int health) {
-    super(_x, _y, _scale, health);
+  public Alien(float _x, float _y, float _scale, int health, Shape _collision_shape) {
 
-    set_collider_circle(25 * scale);
+    super(_x, _y, _scale, health, _collision_shape);
+
   }
 
   public void move(EDirection direction) {

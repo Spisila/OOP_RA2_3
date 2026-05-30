@@ -4,7 +4,7 @@ import static com.raylib.Helpers.newVector2;
 
 import com.raylib.Raylib.Vector2;
 
-public class Shape {
+public abstract class Shape {
 
   Vector2 center;
 

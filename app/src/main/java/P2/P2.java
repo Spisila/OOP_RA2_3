@@ -108,23 +108,33 @@ public class P2 {
 
                 // Spawn new enemies
                 spawn_enemies_timer.update(GetFrameTime());
+                
                 if (spawn_enemies_timer.is_counting_down() == false) {
 
+                    int asteroid_chance = ran.nextInt(100);
+                    
                     float random_x = ran.nextFloat(50, screen_width - 50);
 
-                    Rect r = new Rect(newVector2(random_x, -50), 50, 50);
+                    if (asteroid_chance <= 90) {
 
-                    Enemy e = new Asteroid(random_x, -50, 1, 10, r);
+                        Rect r = new Rect(newVector2(random_x, -50), 50, 50);
+    
+                        Enemy e = new Asteroid(random_x, -50, 1, 10, r);
 
-                    random_x = ran.nextFloat(50, screen_width - 50);
-
-                    Circle c = new Circle(newVector2(random_x, -50), 25);
-                    Enemy e_1 = new Alien(random_x, -50, 1, 20, c);
-
-                    active_enemies.add(e);
-                    active_enemies.add(e_1);
+                        active_enemies.add(e);
+                    }
+                    else {
+    
+                        Circle c = new Circle(newVector2(random_x, -50), 25);
+                        Enemy e = new Alien(random_x, -50, 1, 20, c);
+    
+                        active_enemies.add(e);
+    
+                    }
 
                     spawn_enemies_timer.start();
+
+
                 }
 
                 // Update enemies

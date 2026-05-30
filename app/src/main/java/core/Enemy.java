@@ -22,8 +22,7 @@ public abstract class Enemy extends GameObject implements IDamageable {
   public void takeDamage(int damage) {
 
     health -= damage;
-
-    System.out.println("MORTYE");
+    
     if (health <= 0) {
       alive = false;
     }

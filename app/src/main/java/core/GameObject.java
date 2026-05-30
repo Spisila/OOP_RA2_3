@@ -24,4 +24,13 @@ public abstract class GameObject {
   public Vector2 get_position() {
     return newVector2(x, y);
   }
+
+  public void set_scale(float new_scale) {
+    scale = new_scale;
+  }
+
+  public GameObject get_game_object() {
+    return this;
+  }
+
 }

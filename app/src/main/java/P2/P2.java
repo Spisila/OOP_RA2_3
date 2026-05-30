@@ -4,12 +4,15 @@ import static com.raylib.Raylib.*;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.function.Supplier;
 
 import static com.raylib.Colors.*;
+import static com.raylib.Helpers.newVector2;
 
 import core.Asteroid;
 import core.EDirection;
 import core.Enemy;
+import core.GameObject;
 import core.Player;
 import core.Projectile;
 
@@ -52,25 +55,36 @@ public class P2 {
             spawn_enemies_timer -= GetFrameTime();
 
             if (spawn_enemies_timer <= 0) {
-                Enemy new_Enemy = new Asteroid(ran.nextInt(0, screen_width), -50, ran.nextFloat(0.8f, 1.5f),
-                        ran.nextInt(50, 100));
-                active_enemies.add(new_Enemy);
+
+                float random_x = ran.nextFloat(50, screen_width - 50);
+
+                Enemy e = new Asteroid(random_x, -50, 1, 10);
+
+                active_enemies.add(e);
+
                 spawn_enemies_timer = 1.5f;
             }
 
             for (int i = 0; i < active_enemies.size(); i++) {
                 Enemy e = active_enemies.get(i);
-
+                e.draw();
                 e.move(EDirection.DOWN);
+                e.update();
 
-                if (e.get_position().y() >= screen_height) {
-                    active_enemies.remove(e);
+
+                for (int j = 0; j < active_projectiles.size(); j++) {
+                    if (e.get_collider().check_collision(active_projectiles.get(j).get_collider())) {
+                        active_enemies.remove(e);
+                        active_projectiles.remove(j);
+                    }
                 }
+
             }
 
             for (Projectile p : active_projectiles) {
                 p.draw();
                 p.move(EDirection.UP);
+                p.update();
             }
 
             BeginDrawing();
@@ -78,13 +92,10 @@ public class P2 {
             ClearBackground(BLACK);
             player.draw();
 
-            for (Enemy e : active_enemies) {
-                e.draw();
-            }
-
             EndDrawing();
         }
 
         CloseWindow();
     }
+
 }

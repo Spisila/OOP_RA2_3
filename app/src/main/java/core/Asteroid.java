@@ -1,9 +1,7 @@
 package core;
 
 import static com.raylib.Raylib.*;
-
 import com.raylib.Raylib.Vector2;
-
 import static com.raylib.Colors.*;
 
 import static com.raylib.Helpers.newVector2;
@@ -13,6 +11,7 @@ public class Asteroid extends Enemy implements IDamageable {
   public Asteroid(float _x, float _y, float _scale, int health) {
     super(_x, _y, _scale, health);
 
+    set_collider_rect(50 * _scale, 50 * _scale);
   }
 
   public void move(EDirection direction) {

@@ -17,7 +17,7 @@ public class Player extends GameObject {
 
   private Vector2 shoot_point;
 
-  private Timer shooting_cooldown;
+  private GameTimer shooting_cooldown;
   private float shooting_cooldown_modifier;
 
   private float base_speed = 5;
@@ -32,7 +32,7 @@ public class Player extends GameObject {
 
     this.shoot_point = newVector2(x - 3, y - 11 * scale);
 
-    this.shooting_cooldown = new Timer(0.5f);
+    this.shooting_cooldown = new GameTimer(0.5f);
   }
 
   public void draw() {

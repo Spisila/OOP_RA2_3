@@ -1,16 +1,17 @@
 package core;
 
-public class Timer {
+public class GameTimer {
 
   private float wait_time;
   private float timer;
 
   private boolean counting_down;
 
-  public Timer(float _wait_time) {
+  public GameTimer(float _wait_time) {
     this.wait_time = _wait_time;
 
-    timer = wait_time;
+    this.timer = wait_time;
+    this.counting_down = false;
   }
 
   public void start() {

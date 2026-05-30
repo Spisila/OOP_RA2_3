@@ -19,13 +19,14 @@ import core.GameObject;
 import core.Player;
 import core.Projectile;
 import core.Rect;
+import core.GameTimer;
 
 public class P2 {
 
     static int screen_width = 1300;
     static int screen_height = 850;
 
-    static int player_y = 800;
+    static int player_y = screen_height - 50;
 
     public static void main(String[] args) {
 
@@ -34,7 +35,8 @@ public class P2 {
         ArrayList<Enemy> active_enemies = new ArrayList<>();
         ArrayList<Projectile> active_projectiles = new ArrayList<>();
 
-        float spawn_enemies_timer = 1.5f;
+        float spawn_new_enemy_time = 1.5f;
+        GameTimer spawn_enemies_timer = new GameTimer(spawn_new_enemy_time);
 
         int score = 0;
         int lives = 10;
@@ -105,8 +107,8 @@ public class P2 {
                 }
 
                 // Spawn new enemies
-                spawn_enemies_timer -= GetFrameTime();
-                if (spawn_enemies_timer <= 0) {
+                spawn_enemies_timer.update(GetFrameTime());
+                if (spawn_enemies_timer.is_counting_down() == false) {
 
                     float random_x = ran.nextFloat(50, screen_width - 50);
 
@@ -122,7 +124,7 @@ public class P2 {
                     active_enemies.add(e);
                     active_enemies.add(e_1);
 
-                    spawn_enemies_timer = 1.5f;
+                    spawn_enemies_timer.start();
                 }
 
                 // Update enemies

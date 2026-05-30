@@ -63,7 +63,7 @@ public class Player extends GameObject {
     shooting_cooldown.set_wait_timer(modifier);
   }
 
-  public void shoot(ArrayList<Projectile> active_projectiles) {
+  public boolean shoot(ArrayList<Projectile> active_projectiles) {
 
     if (shooting_cooldown.is_counting_down() == false) {
 
@@ -72,7 +72,11 @@ public class Player extends GameObject {
       active_projectiles.add(p);
 
       shooting_cooldown.start();
+
+      return true;
     }
+
+    return false;
 
   }
 

@@ -41,6 +41,10 @@ public class P2 {
         int score = 0;
         int lives = 10;
 
+        int projectiles_fired = 0;
+        int projectiles_hit = 0;
+        float accuracy = 0;
+
         Random ran = new Random();
 
         EGameState current_state = EGameState.START_MENU;
@@ -91,7 +95,10 @@ public class P2 {
                 }
 
                 if (IsKeyDown(KEY_SPACE)) {
-                    player.shoot(active_projectiles);
+
+                    if (player.shoot(active_projectiles)) {
+                        projectiles_fired += 1;
+                    }
                 }
 
                 // Update player
@@ -108,32 +115,30 @@ public class P2 {
 
                 // Spawn new enemies
                 spawn_enemies_timer.update(GetFrameTime());
-                
+
                 if (spawn_enemies_timer.is_counting_down() == false) {
 
                     int asteroid_chance = ran.nextInt(100);
-                    
+
                     float random_x = ran.nextFloat(50, screen_width - 50);
 
                     if (asteroid_chance <= 90) {
 
                         Rect r = new Rect(newVector2(random_x, -50), 50, 50);
-    
+
                         Enemy e = new Asteroid(random_x, -50, 1, 10, r);
 
                         active_enemies.add(e);
-                    }
-                    else {
-    
+                    } else {
+
                         Circle c = new Circle(newVector2(random_x, -50), 25);
                         Enemy e = new Alien(random_x, -50, 1, 20, c);
-    
+
                         active_enemies.add(e);
-    
+
                     }
 
                     spawn_enemies_timer.start();
-
 
                 }
 
@@ -157,6 +162,9 @@ public class P2 {
                         if (e.get_collider().check_collision(active_projectiles.get(j).get_collider())) {
                             e.takeDamage(10);
                             active_projectiles.remove(j);
+
+                            projectiles_hit += 1;
+                            System.out.println(projectiles_hit);
                         }
                     }
 
@@ -183,11 +191,18 @@ public class P2 {
                     current_state = EGameState.DEFEAT;
                 }
 
+                // Update accuracy
+
+                if (projectiles_fired > 0) {
+                    accuracy = ( (float) projectiles_hit / (float) projectiles_fired) * 100f;
+                }
+
                 // Drawing loop
                 BeginDrawing();
 
-                DrawText(String.valueOf(score), 0, 0, 25, BEIGE);
-                DrawText(String.valueOf(lives), 0, 30, 25, BEIGE);
+                DrawText("SCORE = " + String.valueOf(score), 0, 0, 25, BEIGE);
+                DrawText("VIDAS = " + String.valueOf(lives), 0, 30, 25, BEIGE);
+                DrawText("PRECISÃO = " + String.valueOf(accuracy), 0, 60, 25, BEIGE);
 
                 ClearBackground(BLACK);
                 player.draw();

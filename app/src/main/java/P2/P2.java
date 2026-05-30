@@ -9,6 +9,7 @@ import java.util.function.Supplier;
 import static com.raylib.Colors.*;
 import static com.raylib.Helpers.newVector2;
 
+import core.Alien;
 import core.Asteroid;
 import core.EDirection;
 import core.Enemy;
@@ -32,6 +33,8 @@ public class P2 {
 
         float spawn_enemies_timer = 1.5f;
 
+        int score = 0;
+
         Random ran = new Random();
 
         InitWindow(screen_width, screen_height, "Programa P2");
@@ -40,6 +43,7 @@ public class P2 {
 
         while (!WindowShouldClose()) {
 
+            // Get player input
             if (IsKeyDown(KEY_LEFT)) {
                 player.move(EDirection.LEFT);
             } else if (IsKeyDown(KEY_RIGHT)) {
@@ -50,27 +54,33 @@ public class P2 {
                 player.shoot(active_projectiles);
             }
 
+            // Update player
             player.update(GetFrameTime());
 
+            //Spawn new enemies
             spawn_enemies_timer -= GetFrameTime();
-
             if (spawn_enemies_timer <= 0) {
 
                 float random_x = ran.nextFloat(50, screen_width - 50);
 
                 Enemy e = new Asteroid(random_x, -50, 1, 10);
 
+                random_x = ran.nextFloat(50, screen_width - 50);
+
+                Enemy e_1 = new Alien(random_x, -50, 1, 100);
+
                 active_enemies.add(e);
+                active_enemies.add(e_1);
 
                 spawn_enemies_timer = 1.5f;
             }
 
+            // Update enemies
             for (int i = 0; i < active_enemies.size(); i++) {
                 Enemy e = active_enemies.get(i);
                 e.draw();
                 e.move(EDirection.DOWN);
                 e.update();
-
 
                 for (int j = 0; j < active_projectiles.size(); j++) {
                     if (e.get_collider().check_collision(active_projectiles.get(j).get_collider())) {
@@ -81,13 +91,20 @@ public class P2 {
 
             }
 
+            //Update projectiles
             for (Projectile p : active_projectiles) {
                 p.draw();
                 p.move(EDirection.UP);
                 p.update();
             }
 
+            // Update score
+            score += 1;
+
+            // Drawing loop
             BeginDrawing();
+
+            DrawText(String.valueOf(score) , 0, 0, 25, BEIGE);
 
             ClearBackground(BLACK);
             player.draw();

@@ -1,7 +1,6 @@
 package core;
 
 import static com.raylib.Colors.BLUE;
-import static com.raylib.Colors.RAYWHITE;
 import static com.raylib.Helpers.newRectangle;
 import static com.raylib.Helpers.newVector2;
 import static com.raylib.Raylib.CheckCollisionCircleRec;
@@ -89,8 +88,6 @@ public class Collider {
         Vector2 versus_corner = versus_rect.get_center();
         Rectangle versus_rectangle = newRectangle(versus_corner.x(), versus_corner.y(), versus_rect.get_width(),
             versus_rect.get_height());
-
-        System.out.println(versus_corner.x() + versus_corner.y());
 
         return CheckCollisionRecs(rectangle, versus_rectangle);
 

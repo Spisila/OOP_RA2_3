@@ -22,14 +22,60 @@ import entities.enemy.Enemy;
 
 public class P2 {
 
-    // Carregar objetos do P1
+    static int screen_width;
+    static int screen_height;
+    static int player_y;
+    static int vidas_iniciais;
+    static float velocidade_do_player;
+    static float tempo_spawn_inimigos;
+    static int chance_asteroide;
+    static int vida_asteroide;
+    static int vida_alien;
 
-    static int screen_width = 1300;
-    static int screen_height = 850;
 
-    static int player_y = screen_height - 50;
+    public static void carregarConfiguracaoBinaria() {
+        try {
+
+            java.io.FileInputStream arquivo = new java.io.FileInputStream("config_jogo.dat");
+            java.io.ObjectInputStream leitor = new java.io.ObjectInputStream(arquivo);
+            
+            engine.GameConfig config = (engine.GameConfig) leitor.readObject();
+            
+            leitor.close();
+            arquivo.close();
+
+            screen_width = config.largura;
+            screen_height = config.altura;
+            vidas_iniciais = config.vidasPlayer;
+            velocidade_do_player = config.velocidadePlayer;
+            tempo_spawn_inimigos = config.taxaSpawnInimigos;
+            chance_asteroide = config.chanceAsteroide;
+            vida_asteroide = config.vidaAsteroide;
+            vida_alien = config.vidaAlien;
+            
+            System.out.println("Configuracoes do P1 carregadas com sucesso!");
+
+
+        } catch (Exception e) {
+            System.out.println("Erro ao ler o binario! Usando valores padrao.");
+
+            screen_width = 1300;
+            screen_height = 850;
+            vidas_iniciais = 10;
+            velocidade_do_player = 1.5f;
+            tempo_spawn_inimigos = 1.0f;
+            chance_asteroide = 90;
+            vida_asteroide = 10;
+            vida_alien = 20;
+
+        }
+        
+        player_y = screen_height - 50;
+    }
 
     public static void main(String[] args) {
+
+        carregarConfiguracaoBinaria();  
 
         Player player = new Player(screen_width / 2, player_y, 1.5f, null);
 

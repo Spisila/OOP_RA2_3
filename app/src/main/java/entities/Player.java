@@ -25,10 +25,9 @@ public class Player extends GameObject {
 
   private GameTimer shooting_cooldown;
 
-  private float base_speed = 5;
-  private float speed_modifier = 1;
+  private float speed = 5;
 
-  public Player(int x, int y, float scale, Shape _shape) {
+  public Player(int x, int y, float scale, Shape _shape, float _speed) {
     super(x, y, scale, null);
 
     this.point1 = newVector2(x, y - 10 * scale);
@@ -38,6 +37,8 @@ public class Player extends GameObject {
     this.shoot_point = newVector2(x - 3, y - 11 * scale);
 
     this.shooting_cooldown = new GameTimer(0.5f);
+
+    this.speed = _speed;
   }
 
   public void draw() {
@@ -49,8 +50,6 @@ public class Player extends GameObject {
 
   public void move(EDirection direction) {
 
-    float speed = base_speed + speed_modifier;
-
     if (direction == EDirection.LEFT) {
       this.x -= speed;
     } else if (direction == EDirection.RIGHT) {
@@ -58,10 +57,6 @@ public class Player extends GameObject {
     }
 
     shoot_point = newVector2(x - 3, y - 11 * scale);
-  }
-
-  public void set_speed_modifier(float modifier) {
-    speed_modifier = modifier;
   }
 
   public void set_shooting_cooldow(float modifier) {

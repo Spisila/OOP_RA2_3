@@ -24,12 +24,12 @@ public class P2 {
     static int screen_width;
     static int screen_height;
     static int player_y;
-    static int vidas_iniciais;
-    static float velocidade_do_player;
-    static float tempo_spawn_inimigos;
-    static int chance_asteroide;
-    static int vida_asteroide;
-    static int vida_alien;
+    static int lives;
+    static float player_speed;
+    static float enemy_spawn_rate;
+    static int asteroid_chance;
+    static int asteriod_life;
+    static int alien_life;
 
     public static void carregarConfiguracaoBinaria() {
         try {
@@ -44,12 +44,12 @@ public class P2 {
 
             screen_width = config.get_window_width();
             screen_height = config.get_window_height();
-            vidas_iniciais = config.get_player_life_config();
-            velocidade_do_player = config.get_player_speed_config();
-            tempo_spawn_inimigos = config.get_enemy_spawn_rate_config();
-            chance_asteroide = config.get_asteroid_chance_config();
-            vida_asteroide = config.get_asteriod_life_config();
-            vida_alien = config.get_alien_life_config();
+            lives = config.get_player_life_config();
+            player_speed = config.get_player_speed_config();
+            enemy_spawn_rate = config.get_enemy_spawn_rate_config();
+            asteroid_chance = config.get_asteroid_chance_config();
+            asteriod_life = config.get_asteriod_life_config();
+            alien_life = config.get_alien_life_config();
 
             System.out.println("Configs P1 carregadas");
 
@@ -58,12 +58,12 @@ public class P2 {
 
             screen_width = 1300;
             screen_height = 850;
-            vidas_iniciais = 10;
-            velocidade_do_player = 1.5f;
-            tempo_spawn_inimigos = 1.0f;
-            chance_asteroide = 90;
-            vida_asteroide = 10;
-            vida_alien = 20;
+            lives = 10;
+            player_speed = 5f;
+            enemy_spawn_rate = 1.0f;
+            asteroid_chance = 90;
+            asteriod_life = 10;
+            alien_life = 20;
 
         }
 
@@ -74,16 +74,14 @@ public class P2 {
 
         carregarConfiguracaoBinaria();
 
-        Player player = new Player(screen_width / 2, player_y, 1.5f, null);
+        Player player = new Player(screen_width / 2, player_y, 1.5f, null, player_speed);
 
         ArrayList<Enemy> active_enemies = new ArrayList<>();
         ArrayList<Projectile> active_projectiles = new ArrayList<>();
 
-        float spawn_new_enemy_time = 1f;
-        GameTimer spawn_enemies_timer = new GameTimer(spawn_new_enemy_time);
+        GameTimer spawn_enemies_timer = new GameTimer(enemy_spawn_rate);
 
         int score = 0;
-        int lives = 10;
 
         int projectiles_fired = 0;
         int projectiles_hit = 0;
@@ -167,21 +165,21 @@ public class P2 {
 
                 if (spawn_enemies_timer.is_counting_down() == false) {
 
-                    int asteroid_chance = ran.nextInt(100);
+                    int ran_percentage = ran.nextInt(100);
 
                     float random_x = ran.nextFloat(50, screen_width - 50);
 
-                    if (asteroid_chance <= 90) {
+                    if (ran_percentage <= asteroid_chance) {
 
                         Rect r = new Rect(newVector2(random_x, -50), 50, 50);
 
-                        Enemy e = new Asteroid(random_x, -50, 1, 10, r);
+                        Enemy e = new Asteroid(random_x, -50, 1, asteriod_life, r);
 
                         active_enemies.add(e);
                     } else {
 
                         Circle c = new Circle(newVector2(random_x, -50), 25);
-                        Enemy e = new Alien(random_x, -50, 1, 20, c);
+                        Enemy e = new Alien(random_x, -50, 1, alien_life, c);
 
                         active_enemies.add(e);
 

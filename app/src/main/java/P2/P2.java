@@ -32,32 +32,30 @@ public class P2 {
     static int vida_asteroide;
     static int vida_alien;
 
-
     public static void carregarConfiguracaoBinaria() {
         try {
 
             java.io.FileInputStream arquivo = new java.io.FileInputStream("config_jogo.dat");
             java.io.ObjectInputStream leitor = new java.io.ObjectInputStream(arquivo);
-            
+
             engine.GameConfig config = (engine.GameConfig) leitor.readObject();
-            
+
             leitor.close();
             arquivo.close();
 
-            screen_width = config.largura;
-            screen_height = config.altura;
-            vidas_iniciais = config.vidasPlayer;
-            velocidade_do_player = config.velocidadePlayer;
-            tempo_spawn_inimigos = config.taxaSpawnInimigos;
-            chance_asteroide = config.chanceAsteroide;
-            vida_asteroide = config.vidaAsteroide;
-            vida_alien = config.vidaAlien;
-            
-            System.out.println("Configuracoes do P1 carregadas com sucesso!");
+            screen_width = config.get_window_width();
+            screen_height = config.get_window_height();
+            vidas_iniciais = config.get_player_life_config();
+            velocidade_do_player = config.get_player_speed_config();
+            tempo_spawn_inimigos = config.get_enemy_spawn_rate_config();
+            chance_asteroide = config.get_asteroid_chance_config();
+            vida_asteroide = config.get_asteriod_life_config();
+            vida_alien = config.get_alien_life_config();
 
+            System.out.println("Configs P1 carregadas");
 
         } catch (Exception e) {
-            System.out.println("Erro ao ler o binario! Usando valores padrao.");
+            System.out.println("Erro ao ler arquivo binario. Usando configs padrão");
 
             screen_width = 1300;
             screen_height = 850;
@@ -69,13 +67,13 @@ public class P2 {
             vida_alien = 20;
 
         }
-        
+
         player_y = screen_height - 50;
     }
 
     public static void main(String[] args) {
 
-        carregarConfiguracaoBinaria();  
+        carregarConfiguracaoBinaria();
 
         Player player = new Player(screen_width / 2, player_y, 1.5f, null);
 
@@ -232,7 +230,7 @@ public class P2 {
                 // Update accuracy
 
                 if (projectiles_fired > 0) {
-                    accuracy = ( (float) projectiles_hit / (float) projectiles_fired) * 100f;
+                    accuracy = ((float) projectiles_hit / (float) projectiles_fired) * 100f;
                 }
 
                 // Drawing loop

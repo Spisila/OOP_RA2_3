@@ -4,7 +4,6 @@ import static com.raylib.Raylib.*;
 
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.function.Supplier;
 
 import static com.raylib.Colors.*;
 import static com.raylib.Helpers.newVector2;
@@ -89,6 +88,20 @@ public class P2 {
         int projectiles_fired = 0;
         int projectiles_hit = 0;
         float accuracy = 0;
+
+        String partial_logs_path = "app\\src\\main\\java\\P2\\resultado_parcial.csv";
+        String final_logs_path = "app\\src\\main\\java\\P2\\resultado_final.csv";
+
+        P2LogWriter partial_logs = new P2LogWriter(partial_logs_path);
+        GameTimer take_partial_logs_timer = new GameTimer(2f);
+
+        partial_logs.clear_csv();
+        partial_logs.append_to_csv("score, vidas, precisão");
+
+        P2LogWriter final_logs = new P2LogWriter(final_logs_path);
+
+        partial_logs.clear_csv();
+        partial_logs.append_to_csv("score,vidas,precisão");
 
         Random ran = new Random();
 
@@ -192,15 +205,15 @@ public class P2 {
                     if (e.get_position().y() > screen_height + 25) {
                         lives -= 1;
                         active_enemies.remove(e);
+                        i--;
                     }
 
                     for (int j = 0; j < active_projectiles.size(); j++) {
                         if (e.get_collider().check_collision(active_projectiles.get(j).get_collider())) {
                             e.takeDamage(10);
                             active_projectiles.remove(j);
-
+                            j--;
                             projectiles_hit += 1;
-                            System.out.println(projectiles_hit);
                         }
                     }
 
@@ -216,6 +229,7 @@ public class P2 {
 
                     if (p.get_position().y() < -25) {
                         active_projectiles.remove(p);
+                        i--;
                     }
                 }
 
@@ -231,6 +245,17 @@ public class P2 {
 
                 if (projectiles_fired > 0) {
                     accuracy = ((float) projectiles_hit / (float) projectiles_fired) * 100f;
+                }
+
+                take_partial_logs_timer.update(GetFrameTime());
+
+                if (take_partial_logs_timer.is_counting_down() == false) {
+
+                    String logs_string = String.valueOf(score) + "," + String.valueOf(lives) + ","
+                            + String.valueOf(accuracy);
+                    partial_logs.append_to_csv(logs_string);
+
+                    take_partial_logs_timer.start();
                 }
 
                 // Drawing loop
@@ -268,6 +293,10 @@ public class P2 {
             }
 
         }
+
+        final_logs.clear_csv();
+        final_logs.append_to_csv("score final,precisao");
+        final_logs.append_to_csv(String.valueOf(score) + "," + String.valueOf(accuracy));
 
         CloseWindow();
     }

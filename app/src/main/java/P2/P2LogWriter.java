@@ -4,6 +4,8 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class P2LogWriter {
 
@@ -15,7 +17,7 @@ public class P2LogWriter {
 
   }
 
-  public void append_to_csv(String[] new_row) {
+  public void append_to_csv(String new_row) {
 
     try (FileWriter file_writer = new FileWriter(file_path, true);
         BufferedWriter buffered_writer = new BufferedWriter(file_writer);
@@ -29,24 +31,13 @@ public class P2LogWriter {
 
   }
 
-  public void write_csv(String header, String[] data) {
+  public void clear_csv() {
 
-    try (FileWriter file_writer = new FileWriter(file_path, true);
-        BufferedWriter buffered_writer = new BufferedWriter(file_writer);
-        PrintWriter print_writer = new PrintWriter(buffered_writer)) {
-
-      print_writer.println(header);
-
-      for (int i = 0; i < data.length; i++) {
-
-        print_writer.println(data[i]);
-
-      }
-
+    try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(file_path))) {
+      writer.write("");
     } catch (IOException e) {
       e.printStackTrace();
     }
-
   }
 
 }

@@ -4,8 +4,8 @@ import com.raylib.Raylib.Vector2;
 
 public class Rect extends Shape {
 
-  float width;
-  float height;
+  private float width;
+  private float height;
 
   public Rect(Vector2 _corner, float _width, float _height) {
 

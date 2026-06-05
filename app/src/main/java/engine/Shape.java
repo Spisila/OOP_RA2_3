@@ -6,7 +6,7 @@ import com.raylib.Raylib.Vector2;
 
 public abstract class Shape {
 
-  Vector2 center;
+  private Vector2 center;
 
   public Shape(Vector2 _center) {
     center = _center;

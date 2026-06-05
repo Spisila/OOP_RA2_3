@@ -198,6 +198,7 @@ public class P2 {
 
                     if (e.is_alive() == false) {
                         active_enemies.remove(e);
+                        i--;
                     }
 
                     if (e.get_position().y() > screen_height + 25) {

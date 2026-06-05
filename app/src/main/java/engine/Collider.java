@@ -28,11 +28,11 @@ public class Collider {
 
     if (collision_shape instanceof Circle circle_collider) {
 
-      DrawCircleV(circle_collider.get_center(), circle_collider.radius, BLUE);
+      DrawCircleV(circle_collider.get_center(), circle_collider.get_radius(), BLUE);
 
     } else if (collision_shape instanceof Rect rect_collider) {
 
-      DrawRectangleV(rect_collider.get_center(), newVector2(rect_collider.width, rect_collider.height), BLUE);
+      DrawRectangleV(rect_collider.get_center(), newVector2(rect_collider.get_width(), rect_collider.get_height()), BLUE);
 
     }
 

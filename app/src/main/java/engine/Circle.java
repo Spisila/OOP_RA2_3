@@ -4,7 +4,7 @@ import com.raylib.Raylib.Vector2;
 
 public class Circle extends Shape {
 
-  float radius;
+  private float radius;
 
   public Circle(Vector2 _center, float _radius) {
     super(_center);

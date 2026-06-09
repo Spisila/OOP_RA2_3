@@ -34,7 +34,7 @@ public class P2 {
     public static void carregarConfiguracaoBinaria() {
         try {
 
-            java.io.FileInputStream arquivo = new java.io.FileInputStream("config_jogo.dat");
+            java.io.FileInputStream arquivo = new java.io.FileInputStream("app\\src\\main\\java\\P1\\config_jogo.dat");
             java.io.ObjectInputStream leitor = new java.io.ObjectInputStream(arquivo);
 
             engine.GameConfig config = (engine.GameConfig) leitor.readObject();
@@ -74,52 +74,55 @@ public class P2 {
 
         carregarConfiguracaoBinaria();
 
+        //Cria player
         Player player = new Player(screen_width / 2, player_y, 1.5f, null, player_speed);
 
+        //Lista de inimigos e projeteis
         ArrayList<Enemy> active_enemies = new ArrayList<>();
         ArrayList<Projectile> active_projectiles = new ArrayList<>();
 
         GameTimer spawn_enemies_timer = new GameTimer(enemy_spawn_rate);
 
+        // Variaveis do jogo
         int score = 0;
-
         int projectiles_fired = 0;
         int projectiles_hit = 0;
         float accuracy = 0;
 
+        // Caminhos dos arquivos de log
         String partial_logs_path = "app\\src\\main\\java\\P2\\resultado_parcial.csv";
         String final_logs_path = "app\\src\\main\\java\\P2\\resultado_final.csv";
-
+        
         P2LogWriter partial_logs = new P2LogWriter(partial_logs_path);
+        P2LogWriter final_logs = new P2LogWriter(final_logs_path);
+
         GameTimer take_partial_logs_timer = new GameTimer(2f);
 
+        // Limpa arquivo antigo e adiciona header
         partial_logs.clear_csv();
         partial_logs.append_to_csv("score, vidas, precisão");
-
-        P2LogWriter final_logs = new P2LogWriter(final_logs_path);
 
         partial_logs.clear_csv();
         partial_logs.append_to_csv("score,vidas,precisão");
 
         Random ran = new Random();
 
+
         EGameState current_state = EGameState.START_MENU;
 
         InitWindow(screen_width, screen_height, "Programa P2");
 
+        // Texto tela de começo
         String main_menu_message = "Aperte Enter para começar";
         int main_menu_font_size = 50;
-
         int text_width = MeasureText(main_menu_message, main_menu_font_size);
-
         int main_menu_text_pos_x = (screen_width / 2) - (text_width / 2);
         int main_menu_text_pos_y = (screen_height / 2) - (main_menu_font_size / 2);
 
+        // Texto tela de derrota
         String defeat_message = "Voce perdeu, aperte Enter para recomeçar";
         int defeat_message_font_size = 50;
-
         int defeat_text_width = MeasureText(defeat_message, defeat_message_font_size);
-
         int defeat_message_text_pos_x = (screen_width / 2) - (defeat_text_width / 2);
         int defeat_message_text_pos_y = (screen_height / 2) - (defeat_message_font_size / 2);
 
@@ -142,6 +145,8 @@ public class P2 {
                 EndDrawing();
 
             } else if (current_state == EGameState.GAMEPLAY) {
+
+                BeginDrawing();
 
                 // Get player input
                 if (IsKeyDown(KEY_LEFT)) {
@@ -196,17 +201,20 @@ public class P2 {
                     e.move(EDirection.DOWN);
                     e.update();
 
+                    // Se inimigo morto remove da lista
                     if (e.is_alive() == false) {
                         active_enemies.remove(e);
                         i--;
                     }
 
+                    // Se inimigo fora da tela remove da lista
                     if (e.get_position().y() > screen_height + 25) {
                         lives -= 1;
                         active_enemies.remove(e);
                         i--;
                     }
 
+                    // Checa collisao de inimigos com projeteis
                     for (int j = 0; j < active_projectiles.size(); j++) {
                         if (e.get_collider().check_collision(active_projectiles.get(j).get_collider())) {
                             e.takeDamage(10);
@@ -218,7 +226,7 @@ public class P2 {
 
                 }
 
-                // Update projectiles
+                // Update projeteis
                 for (int i = 0; i < active_projectiles.size(); i++) {
                     Projectile p = active_projectiles.get(i);
 
@@ -226,6 +234,7 @@ public class P2 {
                     p.move(EDirection.UP);
                     p.update();
 
+                    // Se projetil fora da rela remove da lista
                     if (p.get_position().y() < -25) {
                         active_projectiles.remove(p);
                         i--;
@@ -235,19 +244,18 @@ public class P2 {
                 // Update score
                 score += 1;
 
-                // Update lives
+                // Checa se perdeu
                 if (lives <= 0) {
                     current_state = EGameState.DEFEAT;
                 }
 
-                // Update accuracy
-
+                // Update precisão
                 if (projectiles_fired > 0) {
                     accuracy = ((float) projectiles_hit / (float) projectiles_fired) * 100f;
                 }
 
+                // Logs parciais
                 take_partial_logs_timer.update(GetFrameTime());
-
                 if (take_partial_logs_timer.is_counting_down() == false) {
 
                     String logs_string = String.valueOf(score) + "," + String.valueOf(lives) + ","
@@ -258,7 +266,6 @@ public class P2 {
                 }
 
                 // Drawing loop
-                BeginDrawing();
 
                 DrawText("SCORE = " + String.valueOf(score), 0, 0, 25, BEIGE);
                 DrawText("VIDAS = " + String.valueOf(lives), 0, 30, 25, BEIGE);
